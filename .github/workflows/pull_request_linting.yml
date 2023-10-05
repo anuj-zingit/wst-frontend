@@ -1,0 +1,23 @@
+name: Pull Request Lint
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
+
+jobs:
+  title:
+    name: ticket check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for ticket
+        uses: neofinancial/ticket-check-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ticketLink: 'https://zingit.atlassian.net/browse/SP-%ticketNumber%'
+          ticketPrefix: 'SP-'
+          titleRegex: '^SP-(?<ticketNumber>\d+)'
+          branchRegex: '^SP-(?<ticketNumber>\d+)'
+          bodyRegex: 'SP-(?<ticketNumber>\d+)'
+          bodyURLRegex: 'http(s?):\/\/(zingit.atlassian.net)(\/browse)\/(SP\-)(?<ticketNumber>\d+)'
+
